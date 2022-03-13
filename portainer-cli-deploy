@@ -1,0 +1,5 @@
+docker run -d -p 9443:9443 --net=frontend --net=www-proxy --name portainer \
+    --restart=always \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v portainer_data:/data \
+    portainer/portainer-ce:2.11.1-alpine
