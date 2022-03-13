@@ -1,0 +1,29 @@
+version: "2"
+services:
+    ytdl_material:
+        deploy:
+          resources:
+            limits:
+              cpus: '1'
+              memory: 512M
+        container_name: yt-dl
+        environment: 
+            ALLOW_CONFIG_MUTATIONS: 'true'
+        restart: always
+        volumes:
+            - /var/lib/docker/volumes/ytdl_data/_data:/app/appdata
+            - /var/lib/docker/volumes/ytdl_audio/_data:/app/audio
+            - /var/lib/docker/volumes/ytdl_video/_data:/app/video
+            - /var/lib/docker/volumes/ytdl_subs/_data:/app/subscriptions
+            - /var/lib/docker/volumes/ytdl_users/_data:/app/users
+#        ports:
+#            - "8998:17442"
+        image: tzahi12345/youtubedl-material:nightly
+        networks:
+          www-proxy:
+            aliases:
+            - yt-dl
+            
+networks:
+  www-proxy:
+    external: true

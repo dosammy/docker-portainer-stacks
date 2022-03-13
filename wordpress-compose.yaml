@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    container_name: wordpress
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+    image: wordpress
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: 
+      WORDPRESS_DB_PASSWORD: 
+      WORDPRESS_DB_NAME: 
+    networks:
+      www-proxy:
+        aliases:
+          - wordpress
+      backend:
+        aliases:
+          - wordpress
+    volumes:
+      - data:/var/www/html
+
+volumes:
+  data:
+
+networks:
+  www-proxy:
+    external: true
+  backend:
+    external: true

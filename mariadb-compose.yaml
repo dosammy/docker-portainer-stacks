@@ -1,0 +1,49 @@
+version: "3"
+services:
+  mariadb:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+    container_name: mariadb
+    environment:
+      - TZ=Europe/Berlin
+    hostname: mariadb
+    image: mariadb:latest
+    networks:
+      backend:
+        ipv4_address: 192.168.1.1
+        aliases:
+          - mariadb
+    restart: always
+    volumes:
+      - data:/var/lib/mysql
+  phpmyadmin:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+    container_name: phpmyadmin
+    environment:
+      - PMA_HOST=mariadb
+    hostname: phpmyadmin
+    image: phpmyadmin:latest
+    networks:
+      www-proxy:
+        aliases:
+          - phpmyadmin
+      backend:
+        aliases:
+          - phpmyadmin
+    restart: unless-stopped
+
+volumes:
+  data:
+
+networks:
+  backend:
+    external: true
+  www-proxy:
+    external: true

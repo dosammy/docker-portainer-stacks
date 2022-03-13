@@ -1,0 +1,43 @@
+version: "3"
+services:
+  mail:
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 3G
+    container_name: mail
+    environment:
+      - TZ=Europe/Berlin
+      - HTTP_PORT=80
+      - HTTPS_PORT=443
+      - HTTPS=OFF
+    hostname: 
+    image: analogic/poste.io:latest
+    networks:
+      ext-ports:
+        aliases:
+          - mail
+    ports:
+      - 110:110/tcp
+      - 143:143/tcp
+      - 25:25/tcp
+      - 465:465/tcp
+      - 587:587/tcp
+      - 993:993/tcp
+      - 995:995/tcp
+    restart: always
+    volumes:
+      - data:/data
+      - /var/lib/docker/volumes/swag_data/_data/etc/letsencrypt/live/DOMAIN.tld/fullchain.pem:/data/ssl/ca.crt:ro
+      - /var/lib/docker/volumes/swag_data/_data/etc/letsencrypt/live/DOMAIN.tld/cert.pem:/data/ssl/server.crt:ro
+      - /var/lib/docker/volumes/swag_data/_data/etc/letsencrypt/live/DOMAIN.tld/privkey.pem:/data/ssl/server.key:ro
+      - /etc/localtime:/etc/localtime:ro
+
+volumes:
+  data:
+
+networks:
+
+  ext-ports:
+    external: true

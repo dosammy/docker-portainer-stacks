@@ -1,0 +1,43 @@
+version: "3"
+services:
+  ts3server:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+    container_name: ts3server
+    environment:
+      - TS3SERVER_DB_PLUGIN=ts3db_mariadb
+      - TS3SERVER_DB_HOST=mariadb
+      - TS3SERVER_DB_USER=
+      - TS3SERVER_DB_PASSWORD=
+      - TS3SERVER_DB_NAME=
+      - TS3SERVER_DB_WAITUNTILREADY=30
+      - TS3SERVER_LICENSE=accept
+      - TZ=Europe/Berlin
+    hostname: ts3server
+    image: teamspeak:3.13.6
+    networks:
+      ext-ports:
+        aliases:
+          - ts3server
+      backend:
+        aliases:
+          - ts3server
+    ports:
+      - 10011:10011/tcp
+      - 30033:30033/tcp
+      - 9987:9987/udp
+    restart: always
+    volumes:
+      - data:/var/ts3server
+
+volumes:
+  data:
+
+networks:
+  ext-ports:
+    external: true
+  backend:
+    external: true

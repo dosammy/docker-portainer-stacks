@@ -1,0 +1,51 @@
+version: "3"
+services:
+  swag:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+    cap_add:
+      - NET_ADMIN
+    container_name: swag
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - URL=
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - DNSPLUGIN=cloudflare
+      - EMAIL=
+      - MAXMINDDB_LICENSE_KEY=
+      - ONLY_SUBDOMAINS=false
+    hostname: swag
+    image: ghcr.io/linuxserver/swag:latest
+    networks:
+      frontend:
+        aliases:
+          - swag
+      www-proxy:
+        aliases:
+          - swag
+      ext-ports:
+        aliases:
+          - swag
+    ports:
+      - 443:443/tcp
+      - 80:80/tcp
+    restart: always
+    volumes:
+      - data:/config
+
+volumes:
+  data:
+
+networks:
+  frontend:
+    external: true
+  www-proxy:
+    external: true
+  ext-ports:
+    external: true

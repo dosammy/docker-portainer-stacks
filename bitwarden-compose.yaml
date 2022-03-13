@@ -1,0 +1,28 @@
+version: "3"
+services:
+  bitwarden:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+    container_name: bitwarden
+    environment:
+      - TZ=Europe/Berlin
+      - WEBSOCKET_ENABLED=true
+    hostname: bitwarden
+    image: bitwardenrs/server:latest
+    networks:
+      www-proxy:
+        aliases:
+          - bitwarden
+    restart: unless-stopped
+    volumes:
+      - data:/data
+
+volumes:
+  data:
+
+networks:
+  www-proxy:
+    external: true
