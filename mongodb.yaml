@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  mongodb:
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+    container_name: mongodb
+    image: mongo:4.4
+    networks:
+      backend:
+        aliases:
+          - mongodb
+    volumes:
+      - data:/data/db
+      - config:/data/configdb
+
+volumes:
+  data:
+  config:
+  
+networks:
+  backend:
+    external: true
