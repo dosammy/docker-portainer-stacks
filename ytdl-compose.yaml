@@ -1,6 +1,6 @@
 version: "2"
 services:
-    ytdl_material:
+    ytdl:
         deploy:
           resources:
             limits:
@@ -9,21 +9,36 @@ services:
         container_name: yt-dl
         environment: 
             ALLOW_CONFIG_MUTATIONS: 'true'
+            ytdl_mongodb_connection_string: 'mongodb://mongodb:27017/?compressors=zlib'
+            ytdl_use_local_db: 'false'
+            write_ytdl_config: 'true'
         restart: always
         volumes:
-            - /var/lib/docker/volumes/ytdl_data/_data:/app/appdata
-            - /var/lib/docker/volumes/ytdl_audio/_data:/app/audio
-            - /var/lib/docker/volumes/ytdl_video/_data:/app/video
-            - /var/lib/docker/volumes/ytdl_subs/_data:/app/subscriptions
-            - /var/lib/docker/volumes/ytdl_users/_data:/app/users
+            - data:/app/appdata
+            - audio:/app/audio
+            - video:/app/video
+            - subs:/app/subscriptions
+            - users:/app/users
 #        ports:
 #            - "8998:17442"
         image: tzahi12345/youtubedl-material:nightly
         networks:
-          www-proxy:
+          www-proxy-internet:
+            aliases:
+            - yt-dl
+          backend:
             aliases:
             - yt-dl
             
+volumes:
+  data:
+  audio:
+  video:
+  subs:
+  users:
+            
 networks:
-  www-proxy:
+  www-proxy-internet:
+    external: true
+  backend:
     external: true
