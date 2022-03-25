@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+
+  postgres:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    image: postgres:alpine
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: secret_pass
+      POSTGRES_USER: username
+    networks:
+      ext-ports:
+        aliases:
+          - postgres
+    ports:
+      - 5432:5432/tcp
+    volumes:
+      - data:/var/lib/postgresql/data
+      
+volumes:
+  data:
+  
+networks:
+  ext-ports:
+    external: true
