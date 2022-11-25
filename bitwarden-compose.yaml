@@ -1,10 +1,10 @@
-version: "3"
+version: '3'
 services:
   bitwarden:
     deploy:
       resources:
         limits:
-          cpus: '0.25'
+          cpus: '0.2'
           memory: 128M
     container_name: bitwarden
     environment:

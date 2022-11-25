@@ -1,0 +1,41 @@
+version: '3'
+services:
+  conan:
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 8G
+
+    container_name: conan
+    environment:
+      - TZ=Europe/Berlin
+      - GAME_ID=443030
+      - WS_CONTENT=2859352199 1185321962 2010870025 880454836 1159180273 864199675 1125427722 
+      #- GAME_PARAMS=-log
+      #- VALIDATE=true
+      - UID=1000
+      - GID=1000
+
+    hostname: conan
+    image: ich777/steamcmd:conanexiles
+    networks:
+      ext-ports:
+        aliases:
+          - conan
+    ports:
+      - 7777:7777/tcp
+      - 7777:7777/udp
+      - 7778:7778/udp
+      - 27015:27015/udp
+    restart: always
+    volumes:
+      - data:/serverdata/serverfiles
+      - /var/lib/docker/volumes/steamcmd/_data:/serverdata/steamcmd
+
+volumes:
+  data:
+
+networks:
+  ext-ports:
+    external: true

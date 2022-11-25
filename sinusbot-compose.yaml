@@ -1,0 +1,34 @@
+version: '3'
+services:
+  sinusbot:
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+    container_name: sinusbot
+    environment:
+      - UID=1000
+      - GID=1000
+    hostname: sinusbot
+    image: sinusbot/docker
+    networks:
+      ext-ports:
+        aliases:
+          - sinusbot
+#    ports:
+#      - 8087:8087/tcp
+    restart: always
+    volumes:
+      - data:/opt/sinusbot/data
+      - scripts:/opt/sinusbot/scripts
+
+
+volumes:
+  data:
+  scripts:
+
+networks:
+  ext-ports:
+    external: true

@@ -1,44 +1,24 @@
-version: "2"
+version: '3'
 services:
-    ytdl:
-        deploy:
-          resources:
-            limits:
-              cpus: '1'
-              memory: 512M
-        container_name: yt-dl
-        environment: 
-            ALLOW_CONFIG_MUTATIONS: 'true'
-            ytdl_mongodb_connection_string: 'mongodb://mongodb:27017/?compressors=zlib'
-            ytdl_use_local_db: 'false'
-            write_ytdl_config: 'true'
-        restart: always
-        volumes:
-            - data:/app/appdata
-            - audio:/app/audio
-            - video:/app/video
-            - subs:/app/subscriptions
-            - users:/app/users
-#        ports:
-#            - "8998:17442"
-        image: tzahi12345/youtubedl-material:nightly
-        networks:
-          www-proxy-internet:
-            aliases:
-            - yt-dl
-          backend:
-            aliases:
-            - yt-dl
+  ytdl:
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    container_name: yt-dl
+    restart: always
+    volumes:
+        - data:/downloads
+    image: alexta69/metube
+    networks:
+      www-proxy-internet:
+        aliases:
+        - yt-dl
             
 volumes:
   data:
-  audio:
-  video:
-  subs:
-  users:
             
 networks:
   www-proxy-internet:
-    external: true
-  backend:
     external: true

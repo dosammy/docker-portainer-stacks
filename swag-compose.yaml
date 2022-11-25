@@ -4,8 +4,9 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.25'
+          cpus: '0.2'
           memory: 256M
+
     cap_add:
       - NET_ADMIN
     container_name: swag
@@ -21,12 +22,15 @@ services:
       - MAXMINDDB_LICENSE_KEY=
       - ONLY_SUBDOMAINS=false
     hostname: swag
-    image: ghcr.io/linuxserver/swag:latest
+    image: linuxserver/swag:latest
     networks:
       frontend:
         aliases:
           - swag
       www-proxy:
+        aliases:
+          - swag
+      www-proxy-internet:
         aliases:
           - swag
       ext-ports:
@@ -46,6 +50,8 @@ networks:
   frontend:
     external: true
   www-proxy:
+    external: true
+  www-proxy-internet:
     external: true
   ext-ports:
     external: true

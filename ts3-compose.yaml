@@ -17,11 +17,12 @@ services:
       - TS3SERVER_LICENSE=accept
       - TZ=Europe/Berlin
     hostname: ts3server
-    image: teamspeak:3.13.6
+    image: teamspeak:3.13
     networks:
       ext-ports:
         aliases:
           - ts3server
+        ipv4_address:
       backend:
         aliases:
           - ts3server

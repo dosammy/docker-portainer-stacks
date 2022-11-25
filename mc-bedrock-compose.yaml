@@ -1,0 +1,39 @@
+version: '3'
+services:
+  mc-bedrock:
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    container_name: mc-bedrock
+    environment:
+      - EULA=TRUE
+      - GAMEMODE=survival
+      - DIFFICULTY=easy
+      - ALLOW_CHEATS=true
+      - SERVER_NAME=
+     #- WHITE_LIST="true"
+      - MAX_PLAYERS=10
+      - LEVEL_SEED=""
+      - LEVEL_NAME=
+      - OPS=""
+    hostname: mc-bedrock
+    image: itzg/minecraft-bedrock-server
+    networks:
+      ext-ports:
+        aliases:
+          - mc-bedrock
+    ports:
+      - 19132:19132/udp
+    restart: always
+    volumes:
+      - data:/data
+
+
+volumes:
+  data:
+
+networks:
+  ext-ports:
+    external: true

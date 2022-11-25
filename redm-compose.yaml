@@ -1,13 +1,13 @@
 version: '3'
 services:
-  fivem:
-    deploy:
-      resources:
-        limits:
-          cpus: '2'
-          memory: 2G
+  redm:
+    #deploy:
+      #resources:
+        #limits:
+          #cpus: '2'
+          #memory: 2G
 
-    container_name: fivem
+    container_name: redm
     environment:
       - TZ=Europe/Berlin
       - SRV_ADR=https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/
@@ -19,17 +19,18 @@ services:
       - GAME_CONFIG=
       - MANUAL_UPDATES=true
       - START_VARS=
-    hostname: fivem
-    image: ich777/fivemserver:latest
+    hostname: redm
+    image: ich777/redmserver:latest
     networks:
       ext-ports:
         aliases:
-          - fivem
+          - redm
       backend:
         aliases:
-          - fivem
+          - redm
     ports:
       - 30120:30120/tcp
+      - 40120:40120/tcp
       - 30120:30120/udp
     restart: always
     volumes:
